@@ -1,0 +1,83 @@
+syntax="proto3";
+package grpc_demo\;
+message book{
+    string titel=1;
+    string author_1=2;
+    string author_2=3;
+    string location=4;
+    string isbn=5;
+    boolean status=6;
+} 
+message Users{
+   string UserId=1;
+    string UserName=2;
+
+
+}
+message Profile{
+    string UserId=1;
+    string bio=2;
+}
+
+message CreateUsersRequest{
+    Users user = 1;
+    Profile profile = 2;
+}
+message CreateUsersResponse{
+    repeated User CreatedUsers=1;
+}
+service Libraryservices{
+    rpc  BorrowBook(BorrowBookRequest) returns(BorrowBookResponse);
+
+    rpc UpdateBook(UpdateBookRequest) returns(UpdateBookResponse);
+
+
+    rpc LocateBook(LocateBookRequst) returns (LocateBookResponse);
+
+    rpc ListAvailableBook(ListAvailableBookRequest) returns(ListAvailableBookResponse);
+
+
+    rpc RemoveBooks(RemoveBooksRequest) returns (RemoveBooksResponse);
+
+
+    rpc CreateUsers(stream CreateUsersRequest ) returns (CreateUsersResponse);
+}
+
+message UpdateBookRequest {
+    string isbn = 1;  
+    Book updatedBook = 2;  
+}
+
+
+message UpdateBookResponse {
+    boolean success = 1;  
+    string message = 2;  
+}
+message BorrowBookRequest{
+    string Userid=1;
+    string isbn=2;
+}
+message BorrowBookResponse{
+    boolean success = 1;
+    string message = 2;
+}
+message LocateBookRequest{
+ string isbn = 1;
+}
+message LocateBookResponse{
+    string location=1;
+    string availability=2;
+}
+     
+message ListAvailableBookRequest{
+        string Userid=1;
+}
+message ListAvailableBookResponse{
+    repeated Book availability=1;
+}
+message RemoveBookRequest{
+    string isbn=1;
+}
+message RemoveBookResponse{
+    repeated Book Updatedlist=1;
+}
