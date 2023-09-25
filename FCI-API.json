@@ -1,0 +1,256 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+      "title": "Faculty Management API",
+      "version": "1.0.0",
+      "description": "API for managing staff, offices, and courses within the Faculty of Computing and Informatics."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8080/api/v1"
+      }
+    ],
+    "paths": {
+      "/lecturers": {
+        "post": {
+          "description": "Add a new lecturer",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LecturerInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Lecturer was added "
+            },
+            "400": {
+              "description": "Invalid request"
+            }
+          }
+        },
+        "get": {
+          "summary": "Retrieve a list of all lecturers",
+          "responses": {
+            "200": {
+              "description": "Display List of all lecturers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Lecturer"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing lecturer's information",
+        "parameters": [
+          {
+            "ID": "staffNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "Number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LecturerInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Lecturer successfully updated"
+          },
+          "400": {
+            "description": "Invalid request "
+          },
+          "404": {
+            "description": "Lecturer not found"
+          }
+        }
+      },
+      "/lecturers/{staffNumber}": {
+        "get": {
+          "summary": "Retrieve the details of a specific lecturer",
+          "parameters": [
+            {
+              "ID": "staffNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "Number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lecturer's information",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Lecturer"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Lecturer not found"
+            }
+          }
+        
+        
+        },
+        "delete": {
+          "summary": "Delete a lecturer's record",
+          "parameters": [
+            {
+              "ID": "staffNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "Number"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Lecturer was deleted"
+            },
+            "404": {
+              "description": "Lecturer not found"
+            }
+          }
+        }
+      },
+      "/lecturers/courses/{courseCode}": {
+        "get": {
+          "summary": "Retrieve all lecturers teaching a certain course",
+          "parameters": [
+            {
+              "ID": "courseCode",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "Number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Display List of all lecturers",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Lecturer"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Course not found"
+            }
+          }
+        }
+      },
+      "/lecturers/offices/{officeNumber}": {
+        "get": {
+          "summary": "Retrieve all lecturers sitting in the same office",
+          "parameters": [
+            {
+              "ID": "officeNumber",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "Number"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "List of lecturers in the office",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Lecturer"
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Office not found"
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Lecturer": {
+          "type": "object",
+          "properties": {
+            "staffNumber": {
+              "type": "Number"
+            },
+            "officeNumber": {
+              "type": "Number"
+            },
+            "staffName": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "courses": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "LecturerInput": {
+          "type": "object",
+          "properties": {
+            "officeNumber": {
+              "type": "Number"
+            },
+            "staffName": {
+              "type": "string"
+            },
+            "title": {
+              "type": "string"
+            },
+            "courses": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
